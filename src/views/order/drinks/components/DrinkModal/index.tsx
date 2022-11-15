@@ -17,6 +17,7 @@ import Typography from '../../../../../components/Typography';
 import DrinkSizes from './components/DrinkSizes';
 
 import Button from '../../../../../components/Button';
+import AmountSelector from './components/AmountSelector';
 
 interface DrinkModalProps extends ModalHandles {
   drinkId: number;
@@ -70,40 +71,7 @@ const DrinkModal: React.FC<DrinkModalProps> = ({ drinkId, onClose }) => {
               {data.name}
             </Typography>
 
-            <div className="flex items-center ml-auto">
-              <button
-                className="w-10 h-10 rounded-full bg-blue-200 disabled:bg-gray-300 group"
-                type="button"
-                disabled
-              >
-                <Typography
-                  className="group-disabled:text-white-200"
-                  component="span"
-                  color="secondary"
-                  size="lg"
-                >
-                  -
-                </Typography>
-              </button>
-
-              <Typography className="mx-3" component="span">
-                1
-              </Typography>
-
-              <button
-                className="w-10 h-10 rounded-full bg-blue-200 disabled:bg-gray-300 group"
-                type="button"
-              >
-                <Typography
-                  className="group-disabled:text-white-200"
-                  component="span"
-                  color="secondary"
-                  size="lg"
-                >
-                  +
-                </Typography>
-              </button>
-            </div>
+            <AmountSelector onClickAdd={() => ({})} onClickSub={() => ({})} />
           </div>
         </StepCard>
 

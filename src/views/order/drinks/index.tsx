@@ -1,52 +1,24 @@
-import { useState } from 'react';
-
-import { trpc } from '../../../utils/trpc';
-
-import Drink from './components/Drink';
-
 import Typography from '../../../components/Typography';
 
-import DrinkModal from './components/DrinkModal';
+import DrinkProvider from '../../../components/DrinkProvider';
 
-const DrinksPageView: React.FC = () => {
-  const { data } = trpc.drink.getAll.useQuery();
+import DrinkList from './components/DrinkList';
 
-  const [modalDrinkId, setModalDrinkId] = useState<number>();
+const DrinksPageView: React.FC = () => (
+  <div className="flex flex-col">
+    <Typography
+      className="font-bold uppercase mb-3"
+      component="h1"
+      color="tertiary"
+      size="lg"
+    >
+      Drinks
+    </Typography>
 
-  return (
-    <>
-      {modalDrinkId && (
-        <DrinkModal
-          drinkId={modalDrinkId}
-          onClose={() => setModalDrinkId(undefined)}
-        />
-      )}
-
-      <div className="flex flex-col">
-        <Typography
-          className="font-bold uppercase mb-3"
-          component="h1"
-          color="tertiary"
-          size="lg"
-        >
-          Drinks
-        </Typography>
-
-        {data && (
-          <ul className="grid grid-cols-2 gap-3">
-            {data.map(drink => (
-              <Drink
-                key={`drink-list-${drink.name}`}
-                name={drink.name}
-                imageUrl={drink.imageUrl}
-                onClick={() => setModalDrinkId(drink.productId)}
-              />
-            ))}
-          </ul>
-        )}
-      </div>
-    </>
-  );
-};
+    <DrinkProvider>
+      <DrinkList />
+    </DrinkProvider>
+  </div>
+);
 
 export default DrinksPageView;
