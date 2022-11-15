@@ -1,0 +1,179 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model ProductCategory {
+  @@map("product_categories")
+
+  id Int @default(autoincrement()) @id
+  code String @db.VarChar(10) @unique
+  name String @db.VarChar(255)
+  imageUrl String @map("image_url")
+
+  products Product[]
+}
+
+model Drink {
+  @@map("drinks")
+
+  productId Int @map("product_id") @id
+  product Product @relation(fields: [productId], references: [id])
+
+  name String @db.VarChar(255)
+  imageUrl String @map("image_url")
+
+  availableSizes DrinkSize[]
+}
+
+model DrinkSize {
+  @@map("drink_sizes")
+
+  id Int @default(autoincrement()) @id
+
+  selected Boolean @default(false)
+
+  drinkId Int @map("drink_id")
+  drink Drink @relation(fields: [drinkId], references: [productId])
+
+  drinkSizeId Int @map("drink_size_id")
+  drinkSize DrinkSizeType @relation(fields: [drinkSizeId], references: [id])
+}
+
+model DrinkSizeType {
+  @@map("drink_size_types")
+
+  id Int @default(autoincrement()) @id
+  name String @db.VarChar(255)
+
+  drinksWithSize DrinkSize[]
+}
+
+model Product {
+  @@map("products")
+
+  id Int @default(autoincrement()) @id
+
+  categoryId Int @map("category_id")
+  category ProductCategory @relation(fields: [categoryId], references: [id])
+
+  pizzas Pizza[]
+  drinks Drink[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Pizza {
+  @@map("pizzas")
+
+  productId Int @map("product_id") @id
+  product Product @relation(fields: [productId], references: [id])
+
+  name String @unique @db.VarChar(255)
+  description String @db.VarChar(255)
+  imageUrl String @map("image_url")
+
+  toppings PizzaTopping[]
+  availableSizes PizzaSize[]
+  availableBases PizzaBase[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PizzaSizeType {
+  @@map("pizza_size_types")
+
+  code String @db.VarChar(10) @id
+  name String
+  size Int
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+ 
+  pizzasWithSize PizzaSize[]
+}
+
+model PizzaSize {
+  @@map("pizzas_sizes")
+
+  id Int @default(autoincrement()) @id
+
+  pizzaId Int @map("pizza_id")
+  pizza Pizza @relation(fields: [pizzaId], references: [productId])
+
+  selected Boolean @default(false)
+
+  sizeTypeCode String @map("size_type_code")
+  sizeType PizzaSizeType @relation(fields: [sizeTypeCode], references: [code])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model ToppingType {
+  @@map("pizza_topping_types")
+
+  code String @db.VarChar(10) @id
+  name String @db.VarChar(255)
+
+  pizzasWithTopping PizzaTopping[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PizzaTopping {
+  @@map("pizzas_toppings")
+
+  id Int @default(autoincrement()) @id
+
+  pizzaId Int @map("pizza_id")
+  pizza Pizza @relation(fields: [pizzaId], references: [productId])
+
+  include Boolean @default(false)
+  available Boolean @default(false)
+
+  toppingCode String @map("topping_code")
+  topping ToppingType @relation(fields: [toppingCode], references: [code])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model PizzaBaseType {
+  @@map("pizza_base_types")
+
+  code String @db.VarChar(10) @id
+  name String @db.VarChar(255)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  pizzasWithBase PizzaBase[]
+}
+
+model PizzaBase {
+  @@map("pizzas_bases")
+
+  id Int @default(autoincrement()) @id
+
+  pizzaId Int @map("pizza_id")
+  pizza Pizza @relation(fields: [pizzaId], references: [productId])
+
+  selected Boolean @default(false)
+
+  baseCode String @map("base_code")
+  base PizzaBaseType @relation(fields: [baseCode], references: [code])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
