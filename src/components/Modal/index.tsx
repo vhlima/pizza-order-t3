@@ -40,7 +40,7 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
       body
     ) : (
       <div
-        className="w-screen h-screen absolute z-40 overflow-hidden bg-black bg-opacity-50"
+        className="w-screen h-screen absolute overflow-y-auto z-40 bg-black bg-opacity-50"
         role="presentation"
         onClick={onClose}
       >
