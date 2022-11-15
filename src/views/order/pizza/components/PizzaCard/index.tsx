@@ -1,40 +1,43 @@
-import type { PizzaType } from '../../../../../hooks/usePizzaBuilderModal';
-import { usePizzaBuilder } from '../../../../../hooks/usePizzaBuilderModal';
-
-import { useShoppingCart } from '../../../../../hooks/useShoppingCart';
-
 import Button from '../../../../../components/Button';
 
 import Image from '../../../../../components/Image';
 
 import Typography from '../../../../../components/Typography';
 
+import { useLogic } from './logic';
+
 interface PizzaCardProps {
-  pizza: PizzaType;
+  productId: number;
+  name: string;
+  description: string;
+  imageUrl: string;
 }
 
-const PizzaCard: React.FC<PizzaCardProps> = ({ pizza }) => {
-  const { addPizzaToCart } = useShoppingCart();
-
-  const { openModal } = usePizzaBuilder();
+const PizzaCard: React.FC<PizzaCardProps> = ({
+  productId,
+  name,
+  description,
+  imageUrl,
+}) => {
+  const { handleAddPizzaToCart, handleOpenModal } = useLogic({ productId });
 
   return (
     <div className="flex flex-col">
-      <Image className="rounded-sm" src={pizza.imageUrl} alt={pizza.name} />
+      <Image className="rounded-sm" src={imageUrl} alt={name} />
 
       <Typography className="font-bold mt-1" component="h2" color="primary">
-        {pizza.name}
+        {name}
       </Typography>
 
       <Typography className="mt-1" component="p" size="sm">
-        {pizza.description}
+        {description}
       </Typography>
 
       <div className="mt-auto">
         <Button
           className="w-full uppercase mt-4 mb-2"
           styleType="primary"
-          onClick={() => addPizzaToCart(pizza)}
+          onClick={handleAddPizzaToCart}
         >
           Add directly to cart
         </Button>
@@ -42,13 +45,7 @@ const PizzaCard: React.FC<PizzaCardProps> = ({ pizza }) => {
         <Button
           className="w-full uppercase"
           styleType="secondary"
-          onClick={() =>
-            openModal({
-              ...pizza,
-              name: `${pizza.name} Custom`,
-              productId: Math.floor(Math.random() * (2000 - 1000)) + 1000,
-            })
-          }
+          onClick={handleOpenModal}
         >
           Customize
         </Button>

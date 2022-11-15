@@ -1,4 +1,4 @@
-import { usePizzaBuilder } from '../../../../../../hooks/usePizzaBuilderModal';
+import { usePizzaBuilder } from '../../../../../../hooks/usePizzaBuilder';
 
 type ChangeSizeHandles = (sizeCode: string) => void;
 

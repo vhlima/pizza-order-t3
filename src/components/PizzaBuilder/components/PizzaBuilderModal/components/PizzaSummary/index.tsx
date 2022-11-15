@@ -1,4 +1,4 @@
-import { usePizzaBuilder } from '../../../../../../hooks/usePizzaBuilderModal';
+import { usePizzaBuilder } from '../../../../../../hooks/usePizzaBuilder';
 
 import { useShoppingCart } from '../../../../../../hooks/useShoppingCart';
 
@@ -13,7 +13,7 @@ interface PizzaSummaryCardProps {
 const PizzaSummaryCard: React.FC<PizzaSummaryCardProps> = ({ onSubmit }) => {
   const { pizza } = usePizzaBuilder();
 
-  const { addPizzaToCart } = useShoppingCart();
+  const { addProductToCart } = useShoppingCart();
 
   const selectedSize = pizza.availableSizes.find(size => size.selected);
 
@@ -22,7 +22,7 @@ const PizzaSummaryCard: React.FC<PizzaSummaryCardProps> = ({ onSubmit }) => {
   const handleSubmit = () => {
     onSubmit();
 
-    addPizzaToCart(pizza);
+    addProductToCart({ product: pizza });
   };
 
   return (

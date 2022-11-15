@@ -1,4 +1,4 @@
-import { usePizzaBuilder } from '../../../../../../hooks/usePizzaBuilderModal';
+import { usePizzaBuilder } from '../../../../../../hooks/usePizzaBuilder';
 
 import Typography from '../../../../../Typography';
 

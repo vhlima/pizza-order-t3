@@ -3,7 +3,7 @@ import type { PropsWithChildren } from 'react';
 import {
   PizzaBuilderContext,
   PizzaBuilderProvider,
-} from '../../hooks/usePizzaBuilderModal';
+} from '../../hooks/usePizzaBuilder';
 
 import PizzaBuilderModal from './components/PizzaBuilderModal';
 

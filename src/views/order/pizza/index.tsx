@@ -39,10 +39,7 @@ const OrderPizzaPageView: React.FC = () => {
           <PizzaBuilder>
             <ul className="grid grid-cols-2 gap-3">
               {data.map(pizza => (
-                <PizzaCard
-                  key={`pizza-card-${pizza.productId}`}
-                  pizza={pizza}
-                />
+                <PizzaCard key={`pizza-card-${pizza.productId}`} {...pizza} />
               ))}
             </ul>
           </PizzaBuilder>

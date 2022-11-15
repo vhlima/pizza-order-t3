@@ -1,6 +1,6 @@
-import { usePizzaBuilder } from '../../../../../hooks/usePizzaBuilderModal';
+import { usePizzaBuilder } from '../../../../../hooks/usePizzaBuilder';
 
-import type { PizzaType } from '../../../../../hooks/usePizzaBuilderModal';
+import type { PizzaType } from '../../../../../hooks/usePizzaBuilder';
 
 import { trpc } from '../../../../../utils/trpc';
 
