@@ -1,3 +1,5 @@
+import { Fragment } from 'react';
+
 import { AiOutlineClose } from 'react-icons/ai';
 
 import type { ModalHandles } from '../../../../../../../components/Modal';
@@ -10,13 +12,18 @@ import Typography from '../../../../../../../components/Typography';
 
 import Button from '../../../../../../../components/Button';
 
-import CartProduct from './components/CartProduct';
 import PizzaBuilder from '../../../../../../../components/PizzaBuilder';
+
+import CartPizza from './components/CartPizza';
+
+import CartDrink from './components/CartDrink';
+
+import DrinkProvider from '../../../../../../../components/DrinkProvider';
 
 type ShoppingCartModalProps = ModalHandles;
 
 const ShoppingCartModal: React.FC<ShoppingCartModalProps> = ({ onClose }) => {
-  const { pizzas } = useShoppingCart();
+  const { products } = useShoppingCart();
 
   return (
     <Modal className="w-screen h-screen flex flex-col" onClose={onClose}>
@@ -39,7 +46,7 @@ const ShoppingCartModal: React.FC<ShoppingCartModalProps> = ({ onClose }) => {
         </button>
       </header>
 
-      {pizzas.length === 0 ? (
+      {products.length === 0 ? (
         <div className="flex flex-col items-center p-4">
           <Typography className="font-bold" component="p" color="tertiary">
             Your cart is empty, but your belly doesn&apos;t have to be. Add your
@@ -57,16 +64,21 @@ const ShoppingCartModal: React.FC<ShoppingCartModalProps> = ({ onClose }) => {
       ) : (
         <>
           <PizzaBuilder>
-            <ul className="flex flex-col">
-              {pizzas.map(productInfo => (
-                <CartProduct
-                  key={`product-info-${productInfo.pizza.productId}`}
-                  name={productInfo.pizza.name}
-                  amount={productInfo.amount}
-                  imageUrl={productInfo.pizza.imageUrl}
-                />
-              ))}
-            </ul>
+            <DrinkProvider>
+              <ul className="flex flex-col">
+                {products.map(({ product: { product, productId } }) => (
+                  <Fragment key={`product-info-${productId}`}>
+                    {product.category.code === 'PIZZA' && (
+                      <CartPizza id={productId} />
+                    )}
+
+                    {product.category.code === 'DRINK' && (
+                      <CartDrink id={productId} />
+                    )}
+                  </Fragment>
+                ))}
+              </ul>
+            </DrinkProvider>
           </PizzaBuilder>
 
           <div className="w-full mt-auto p-2 bg-white-200 border-t-2 border-blue-100">

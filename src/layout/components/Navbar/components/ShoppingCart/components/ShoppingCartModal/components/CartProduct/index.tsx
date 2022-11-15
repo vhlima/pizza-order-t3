@@ -1,40 +1,38 @@
-import { usePizzaBuilder } from '../../../../../../../../../hooks/usePizzaBuilderModal';
+import { useShoppingCart } from '../../../../../../../../../hooks/useShoppingCart';
 
 import Image from '../../../../../../../../../components/Image';
 
 import Button from '../../../../../../../../../components/Button';
 
 import Typography from '../../../../../../../../../components/Typography';
-import { useShoppingCart } from '../../../../../../../../../hooks/useShoppingCart';
 
 interface CartProductProps {
+  id: number;
   name: string;
-  amount: number;
-  imageUrl: string;
+  onClickEdit: () => void;
 }
 
-const CartProduct: React.FC<CartProductProps> = ({
-  name,
-  // amount,
-  imageUrl,
-}) => {
-  const { openModal } = usePizzaBuilder();
+const CartProduct: React.FC<CartProductProps> = ({ id, name, onClickEdit }) => {
+  const { products, changeProductAmount, removeProductFromCart } =
+    useShoppingCart();
 
-  const { pizzas } = useShoppingCart();
+  const cartProduct = products.find(p => p.product.productId === id);
 
-  const cartItem = pizzas.find(p => p.pizza.name === name);
-
-  if (!cartItem) {
+  if (!cartProduct) {
     return null;
   }
 
   return (
     <li className="p-4 border-b border-grey last-of-type:border-b-0">
       <article className="grid items-center grid-cols-[1fr_3fr_1fr] gap-2">
-        <Image className="rounded-sm" src={imageUrl} alt={name} />
+        <Image
+          className="rounded-sm"
+          src={cartProduct.product.imageUrl}
+          alt={cartProduct.product.name}
+        />
 
         <Typography className="font-bold" component="h2" color="primary">
-          30cm Medium Traditional {name}
+          {name}
         </Typography>
 
         <Typography className="text-center" component="span">
@@ -50,15 +48,13 @@ const CartProduct: React.FC<CartProductProps> = ({
 
           <select
             className="p-1"
-            // onChange={e => changeProductAmount(productId, Number(e.target.value))}
+            value={`${cartProduct.amount}`}
+            onChange={e => changeProductAmount(id, Number(e.target.value))}
           >
             {Array.from({ length: 25 })
               .map((_, index) => index + 1)
               .map(n => (
-                <option
-                  key={`product-amount-option-${n}`}
-                  // selected={n === amount}
-                >
+                <option key={`product-amount-option-${n}`} id={`${n}`}>
                   {n}
                 </option>
               ))}
@@ -66,16 +62,13 @@ const CartProduct: React.FC<CartProductProps> = ({
         </div>
 
         <div className="flex gap-3">
-          <Button
-            styleType="tertiary"
-            onClick={() => openModal(cartItem.pizza as any)}
-          >
+          <Button styleType="tertiary" onClick={onClickEdit}>
             Edit
           </Button>
 
           <Button
             styleType="tertiary"
-            // onClick={() => removeProductFromCart(productId)}
+            onClick={() => removeProductFromCart(id)}
           >
             Remove
           </Button>

@@ -8,25 +8,34 @@ import {
 
 import type { PropsWithChildren } from 'react';
 
-import type { PizzaType } from './usePizzaBuilderModal';
+import type { PizzaType } from './usePizzaBuilder';
 
-type ShoppingCartPizzaInfo = {
-  pizza: PizzaType;
+import type { DrinkType } from './useDrinkModal';
+
+export type ShoppingCartProductInfo<T extends { productId: number }> = {
+  product: T;
   amount: number;
 };
 
-type AddPizzaToCardHandles = (pizza: PizzaType) => void;
+type ShoppingCartProductType =
+  | ShoppingCartProductInfo<PizzaType>
+  | ShoppingCartProductInfo<DrinkType>;
+
+type ShoppingCartProducts = Array<ShoppingCartProductType>;
+
+type AddProductToCartHandles = (
+  product: Omit<ShoppingCartProductType, 'amount'> & { amount?: number },
+) => void;
 
 type ChangeProductAmountHandles = (productId: number, amount: number) => void;
 
-type RemovePizzaFromCartHandles = (productId: number) => void;
+type RemoveProductFromCartHandles = (productId: number) => void;
 
 interface ShoppingCartContextHandles {
-  pizzas: ShoppingCartPizzaInfo[];
+  products: ShoppingCartProducts;
 
-  addPizzaToCart: AddPizzaToCardHandles;
-  removePizzaFromCart: RemovePizzaFromCartHandles;
-
+  addProductToCart: AddProductToCartHandles;
+  removeProductFromCart: RemoveProductFromCartHandles;
   changeProductAmount: ChangeProductAmountHandles;
 }
 
@@ -35,51 +44,54 @@ const ShoppingCartContext = createContext({} as ShoppingCartContextHandles);
 export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
-  const [pizzas, setPizzas] = useState<ShoppingCartPizzaInfo[]>([]);
+  const [products, setProducts] = useState<ShoppingCartProducts>([]);
 
-  const addPizzaToCart: AddPizzaToCardHandles = useCallback(
-    pizza => {
-      setPizzas(prev => {
-        const pizzaFound = prev.find(
-          pizzaInfo => pizzaInfo.pizza.productId === pizza.productId,
+  const addProductToCart: AddProductToCartHandles = useCallback(
+    ({ product, amount }) => {
+      setProducts(prev => {
+        const productFound = prev.find(
+          productInfo => productInfo.product.productId === product.productId,
         );
 
-        if (!pizzaFound) {
-          return [...prev, { pizza, amount: 1 }];
+        if (!productFound) {
+          return [
+            ...prev,
+            { product, amount: amount || 1 } as ShoppingCartProductType,
+          ];
         }
 
-        const pizzaIndex = prev.indexOf(pizzaFound);
+        const productIndex = prev.indexOf(productFound);
 
-        const updatedPizzas = [...prev];
+        const updatedProducts = [...prev];
 
-        updatedPizzas[pizzaIndex] = {
-          ...pizzaFound,
-          pizza: {
-            ...pizzaFound.pizza,
-            ...pizza,
+        updatedProducts[productIndex] = {
+          product: {
+            ...product,
+            productId: productFound.product.productId,
           },
-        };
+          amount: amount || productFound.amount,
+        } as ShoppingCartProductType;
 
-        return updatedPizzas;
+        return updatedProducts;
       });
     },
-    [setPizzas],
+    [setProducts],
   );
 
-  const removePizzaFromCart: RemovePizzaFromCartHandles = useCallback(
+  const removeProductFromCart: RemoveProductFromCartHandles = useCallback(
     productId => {
-      setPizzas(prev =>
-        prev.filter(productInfo => productInfo.pizza.productId !== productId),
+      setProducts(prev =>
+        prev.filter(productInfo => productInfo.product.productId !== productId),
       );
     },
-    [setPizzas],
+    [setProducts],
   );
 
   const changeProductAmount: ChangeProductAmountHandles = useCallback(
     (productId, amount) => {
-      setPizzas(prev => {
+      setProducts(prev => {
         const cartProductIndex = prev.findIndex(
-          p => p.pizza.productId === productId,
+          p => p.product.productId === productId,
         );
 
         if (cartProductIndex < 0) {
@@ -95,24 +107,24 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
         }
 
         prevCopy[cartProductIndex] = {
-          pizza: cartProduct.pizza,
+          product: cartProduct.product,
           amount,
-        };
+        } as ShoppingCartProductType;
 
         return prevCopy;
       });
     },
-    [setPizzas],
+    [setProducts],
   );
 
   const contextValue = useMemo(
     () => ({
-      pizzas,
-      addPizzaToCart,
-      removePizzaFromCart,
+      products,
+      addProductToCart,
+      removeProductFromCart,
       changeProductAmount,
     }),
-    [pizzas, addPizzaToCart, removePizzaFromCart, changeProductAmount],
+    [products, addProductToCart, removeProductFromCart, changeProductAmount],
   );
 
   return (

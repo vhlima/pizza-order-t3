@@ -9,7 +9,7 @@ import Typography from '../../../../../components/Typography';
 import ShoppingCartModal from './components/ShoppingCartModal';
 
 const ShoppingCart: React.FC = () => {
-  const { pizzas } = useShoppingCart();
+  const { products } = useShoppingCart();
 
   const [isModalOpen, setModalOpen] = useState<boolean>(false);
 
@@ -31,7 +31,7 @@ const ShoppingCart: React.FC = () => {
             color="secondary"
             size="sm"
           >
-            {pizzas.length}
+            {products.length}
           </Typography>
         </div>
 
