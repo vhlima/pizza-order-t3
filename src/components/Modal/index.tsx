@@ -25,8 +25,9 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
 }) => {
   const body = (
     <div
-      className={clsx('absolute bg-white z-50', className && className, {
+      className={clsx('absolute bg-white', className && className, {
         'top-16 left-1/2 transform -translate-x-1/2': center,
+        'z-50': !backdrop,
       })}
       role="presentation"
       onClick={e => e.stopPropagation()}
@@ -40,7 +41,7 @@ const Modal: React.FC<PropsWithChildren<ModalInternalProps>> = ({
       body
     ) : (
       <div
-        className="w-screen h-screen absolute overflow-y-auto z-40 bg-black bg-opacity-50"
+        className="w-screen h-screen absolute overflow-y-auto z-50 bg-black bg-opacity-50"
         role="presentation"
         onClick={onClose}
       >
