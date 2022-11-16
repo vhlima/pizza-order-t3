@@ -62,7 +62,7 @@ const CartProduct: React.FC<CartProductProps> = ({ id, name, onClickEdit }) => {
         </div>
 
         <div className="flex gap-3">
-          <Button styleType="tertiary" onClick={onClickEdit}>
+          <Button className="px-4" styleType="tertiary" onClick={onClickEdit}>
             Edit
           </Button>
 
