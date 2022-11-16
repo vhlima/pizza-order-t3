@@ -4,6 +4,7 @@ import {
   useState,
   useMemo,
   useCallback,
+  useEffect,
 } from 'react';
 
 import type { PropsWithChildren } from 'react';
@@ -46,6 +47,27 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
 }) => {
   const [products, setProducts] = useState<ShoppingCartProducts>([]);
 
+  const setLocalStorage = (stringified?: string) => {
+    if (!stringified) {
+      localStorage.removeItem('cart');
+      return;
+    }
+
+    localStorage.setItem('cart', stringified);
+  };
+
+  useEffect(() => {
+    const cartItems = localStorage.getItem('cart');
+
+    // TODO validate all fields for cart items before changing the state
+
+    if (cartItems) {
+      const cartProducts = JSON.parse(cartItems);
+
+      setProducts(cartProducts as ShoppingCartProducts);
+    }
+  }, [setProducts]);
+
   const addProductToCart: AddProductToCartHandles = useCallback(
     ({ product, amount }) => {
       setProducts(prev => {
@@ -54,10 +76,14 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
         );
 
         if (!productFound) {
-          return [
+          const updatedProducts = [
             ...prev,
             { product, amount: amount || 1 } as ShoppingCartProductType,
           ];
+
+          setLocalStorage(JSON.stringify(updatedProducts));
+
+          return updatedProducts;
         }
 
         const productIndex = prev.indexOf(productFound);
@@ -72,6 +98,8 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
           amount: amount || productFound.amount,
         } as ShoppingCartProductType;
 
+        setLocalStorage(JSON.stringify(updatedProducts));
+
         return updatedProducts;
       });
     },
@@ -80,9 +108,19 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
 
   const removeProductFromCart: RemoveProductFromCartHandles = useCallback(
     productId => {
-      setProducts(prev =>
-        prev.filter(productInfo => productInfo.product.productId !== productId),
-      );
+      setProducts(prev => {
+        const filteredProducts = prev.filter(
+          productInfo => productInfo.product.productId !== productId,
+        );
+
+        setLocalStorage(
+          filteredProducts.length > 0
+            ? JSON.stringify(filteredProducts)
+            : undefined,
+        );
+
+        return filteredProducts;
+      });
     },
     [setProducts],
   );
@@ -98,20 +136,22 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
           return prev;
         }
 
-        const prevCopy = [...prev];
-
-        const cartProduct = prevCopy[cartProductIndex];
+        const cartProduct = prev[cartProductIndex];
 
         if (!cartProduct) {
           return prev;
         }
 
-        prevCopy[cartProductIndex] = {
+        const updatedProducts = [...prev];
+
+        updatedProducts[cartProductIndex] = {
           product: cartProduct.product,
           amount,
         } as ShoppingCartProductType;
 
-        return prevCopy;
+        setLocalStorage(JSON.stringify(updatedProducts));
+
+        return updatedProducts;
       });
     },
     [setProducts],
