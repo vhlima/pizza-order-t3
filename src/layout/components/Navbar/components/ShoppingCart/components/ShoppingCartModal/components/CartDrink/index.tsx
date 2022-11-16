@@ -46,7 +46,11 @@ const CartDrink: React.FC<CartDrinkProps> = ({ id }) => {
   return (
     <CartProduct
       id={id}
-      name={`${selectedSize?.drinkSize.name} ${drink.product.name}`}
+      name={
+        !selectedSize
+          ? drink.product.name
+          : `${selectedSize?.drinkSize.name} ${drink.product.name}`
+      }
       onClickEdit={handleOpenModal}
     />
   );
