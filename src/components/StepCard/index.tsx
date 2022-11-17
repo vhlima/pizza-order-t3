@@ -7,21 +7,32 @@ import Typography from '../Typography';
 interface StepCardProps {
   className?: string;
   title: string;
+  styleType?: 'primary' | 'secondary';
   padding?: boolean;
 }
 
 const StepCard: React.FC<PropsWithChildren<StepCardProps>> = ({
   className,
   title,
+  styleType = 'primary',
   padding = true,
   children,
 }) => (
   <div className="w-full overflow-hidden rounded-sm border border-grey">
-    <header className="bg-blue-200 p-2">
+    <header
+      className={clsx('p-2', {
+        'bg-blue-200': styleType === 'primary',
+        'bg-grey-100': styleType === 'secondary',
+      })}
+    >
       <Typography
-        className="font-bold uppercase"
+        className={clsx('uppercase font-bold', {
+          'uppercase font-bold': styleType === 'primary',
+          uppercase: styleType === 'secondary',
+        })}
         component="h2"
-        color="secondary"
+        size={styleType === 'primary' ? 'md' : 'sm'}
+        color={styleType === 'primary' ? 'secondary' : 'tertiary'}
       >
         {title}
       </Typography>
