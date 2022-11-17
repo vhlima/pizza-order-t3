@@ -2,9 +2,7 @@ import { trpc } from '../../../../../utils/trpc';
 
 import { useDrinkModal } from '../../../../../hooks/useDrinkModal';
 
-import Typography from '../../../../../components/Typography';
-
-import Image from '../../../../../components/Image';
+import ProductCard from '../../../../../components/ProductCard';
 
 const DrinkList: React.FC = () => {
   const { openModal } = useDrinkModal();
@@ -18,27 +16,12 @@ const DrinkList: React.FC = () => {
   return (
     <ul className="grid grid-cols-2 gap-3">
       {data.map(({ product }) => (
-        <li key={`drink-list-${product.name}`}>
-          <button
-            className="flex flex-col w-full"
-            type="button"
-            onClick={() => openModal(product.id)}
-          >
-            <Image
-              className="rounded-md"
-              src={product.imageUrl}
-              alt={product.name}
-            />
-
-            <Typography
-              className="font-bold mt-1"
-              component="h2"
-              color="primary"
-            >
-              {product.name}
-            </Typography>
-          </button>
-        </li>
+        <ProductCard
+          key={`drink-list-${product.name}`}
+          name={product.name}
+          imageUrl={product.imageUrl}
+          onClick={() => openModal(product.id)}
+        />
       ))}
     </ul>
   );
