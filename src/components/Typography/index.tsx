@@ -7,7 +7,7 @@ interface TypographyProps
   component: ElementType;
 
   color?: 'primary' | 'secondary' | 'tertiary' | 'quaternary';
-  size?: 'lg' | 'md' | 'sm';
+  size?: 'lg' | 'md' | 'sm' | 'xs';
 }
 
 const Typography: React.FC<PropsWithChildren<TypographyProps>> = ({
@@ -27,6 +27,7 @@ const Typography: React.FC<PropsWithChildren<TypographyProps>> = ({
         'text-white': color === 'secondary',
         'text-grey-200': color === 'tertiary',
         'text-red': color === 'quaternary',
+        'text-xs': size === 'xs',
         'text-sm': size === 'sm',
         'text-base': size === 'md',
         'text-2xl': size === 'lg',
