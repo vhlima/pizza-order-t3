@@ -2,11 +2,13 @@ import { trpc } from '../../../utils/trpc';
 
 import Typography from '../../../components/Typography';
 
-import PizzaCard from './components/PizzaCard';
-
 import PizzaBuilder from '../../../components/PizzaBuilder';
 
 import GoBackButton from '../../../components/GoBackButton';
+
+import ProductCard from '../../../components/ProductCard';
+
+import ActionButtons from './components/ActionButtons';
 
 const OrderPizzaPageView: React.FC = () => {
   const { data } = trpc.pizza.getAll.useQuery();
@@ -37,15 +39,16 @@ const OrderPizzaPageView: React.FC = () => {
 
         {data && (
           <PizzaBuilder>
-            <ul className="grid grid-cols-2 gap-3">
-              {data.map(pizza => (
-                <PizzaCard
-                  key={`pizza-card-${pizza.product.id}`}
-                  productId={pizza.product.id}
-                  name={pizza.product.name}
-                  description={pizza.description}
-                  imageUrl={pizza.product.imageUrl}
-                />
+            <ul className="grid grid-cols-2 gap-2">
+              {data.map(({ product, description }) => (
+                <ProductCard
+                  key={`product-card-${product.id}`}
+                  name={product.name}
+                  description={description}
+                  imageUrl={product.imageUrl}
+                >
+                  <ActionButtons productId={product.id} />
+                </ProductCard>
               ))}
             </ul>
           </PizzaBuilder>
