@@ -28,7 +28,7 @@ export const useLogic = ({
 
   const handleAddPizzaToCart = async () => {
     if (cachedData) {
-      addProductToCart({ product: cachedData });
+      addProductToCart({ item: cachedData });
       return;
     }
 
@@ -37,7 +37,7 @@ export const useLogic = ({
     const { data } = await refetch();
 
     if (data) {
-      addProductToCart({ product: data });
+      addProductToCart({ item: data });
     }
   };
 
@@ -45,8 +45,11 @@ export const useLogic = ({
     if (cachedData) {
       openModal({
         ...cachedData,
-        name: `${cachedData.name} Custom`,
-        productId: Math.floor(Math.random() * (2000 - 1000)) + 1000,
+        product: {
+          ...cachedData.product,
+          id: Math.floor(Math.random() * (2000 - 1000)) + 1000,
+          name: `${cachedData.product.name} Custom`,
+        },
       });
 
       return;
@@ -59,8 +62,11 @@ export const useLogic = ({
     if (data) {
       openModal({
         ...data,
-        name: `${data.name} Custom`,
-        productId: Math.floor(Math.random() * (2000 - 1000)) + 1000,
+        product: {
+          ...data.product,
+          id: Math.floor(Math.random() * (2000 - 1000)) + 1000,
+          name: `${data.product.name} Custom`,
+        },
       });
     }
   };

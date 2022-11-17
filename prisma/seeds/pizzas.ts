@@ -12,29 +12,37 @@ const createPizza = ({ name, description, imageUrl }: PizzaBaseProps) =>
   ({
     product: {
       create: {
+        name,
+        imageUrl,
         category: {
           connect: { code: 'PIZZA' },
         },
       },
     },
-    name,
-    imageUrl,
     description,
     availableBases: {
       create: ['THI', 'TRAD', 'PAN'].map(baseCode => ({
-        baseCode,
+        base: {
+          connect: { code: baseCode },
+        },
         selected: baseCode === 'TRAD',
       })),
     },
     availableSizes: {
       create: ['MED', 'LAR', 'GIG'].map(size => ({
-        sizeTypeCode: size,
+        sizeType: {
+          connect: { code: size },
+        },
         selected: size === 'MED',
       })),
     },
     toppings: {
       create: pizzaToppings.map(topping => ({
-        toppingCode: topping.code,
+        topping: {
+          connect: {
+            code: topping.code,
+          },
+        },
         include: ['CRCH', 'ORE', 'PARM'].includes(topping.code),
         available: true,
       })),

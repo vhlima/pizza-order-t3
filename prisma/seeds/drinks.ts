@@ -10,6 +10,8 @@ const createDrink = ({ name, imageUrl, simpleSizes }: DrinkBaseProps) =>
   ({
     product: {
       create: {
+        name,
+        imageUrl,
         category: {
           connect: {
             code: 'DRINK',
@@ -30,8 +32,6 @@ const createDrink = ({ name, imageUrl, simpleSizes }: DrinkBaseProps) =>
         },
       })),
     },
-    name,
-    imageUrl,
   } as Prisma.DrinkCreateInput);
 
 export const drinks: Prisma.DrinkCreateInput[] = [

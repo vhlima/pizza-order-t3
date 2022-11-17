@@ -1,24 +1,18 @@
 import type { Prisma } from '@prisma/client';
 
-export const pizzaSizeTypes: Prisma.PizzaSizeTypeCreateInput[] = [
-  {
-    code: 'SPR',
-    name: 'Sprout',
-    size: 18,
-  },
-  {
-    code: 'MED',
-    name: 'Medium',
-    size: 30,
-  },
-  {
-    code: 'LAR',
-    name: 'Large',
-    size: 35,
-  },
-  {
-    code: 'GIG',
-    name: 'Giga',
-    size: 40,
-  },
+const createPizzaSize = (
+  code: string,
+  name: string,
+  cm: number,
+): Prisma.PizzaSizeTypeCreateInput => ({
+  code,
+  name,
+  size: cm,
+});
+
+export const pizzaSizeTypes = [
+  createPizzaSize('SPR', 'Sprout', 18),
+  createPizzaSize('MED', 'Medium', 30),
+  createPizzaSize('LAR', 'Large', 35),
+  createPizzaSize('GIG', 'Giga', 40),
 ];

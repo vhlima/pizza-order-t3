@@ -17,11 +17,11 @@ import { useShoppingCart } from './useShoppingCart';
 
 export type DrinkType = Prisma.DrinkGetPayload<{
   select: {
-    productId: true;
-    name: true;
-    imageUrl: true;
     product: {
-      include: {
+      select: {
+        id: true;
+        name: true;
+        imageUrl: true;
         category: {
           select: {
             code: true;
@@ -106,7 +106,7 @@ export const DrinkProvider: React.FC<PropsWithChildren> = ({ children }) => {
     async productId => {
       /* Try to find product from user's cart. */
       const productExists = products.find(
-        p => p.product.productId === productId,
+        ({ item }) => item.product.id === productId,
       );
 
       /* If the product its not present in user's cart we have to fetch it. */
@@ -122,7 +122,7 @@ export const DrinkProvider: React.FC<PropsWithChildren> = ({ children }) => {
       */
       setDrinkInfo({
         amount: productExists.amount,
-        drink: productExists.product,
+        drink: productExists.item,
       } as DrinkInfo);
     },
     [products, setDrinkId],

@@ -67,9 +67,7 @@ async function main() {
 
   const pizzaPromise = pizzas.map(pizza =>
     prisma.pizza.create({
-      data: {
-        ...pizza,
-      },
+      data: pizza,
     }),
   );
 

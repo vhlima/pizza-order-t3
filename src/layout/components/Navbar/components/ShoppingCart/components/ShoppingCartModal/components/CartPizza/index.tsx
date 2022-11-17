@@ -18,7 +18,7 @@ const CartPizza: React.FC<CartPizzaProps> = ({ id }) => {
   const { products } = useShoppingCart();
 
   const findCartProduct = () => {
-    const cartProduct = products.find(p => p.product.productId === id);
+    const cartProduct = products.find(({ item }) => item.product.id === id);
 
     if (cartProduct) {
       return cartProduct as ShoppingCartProductInfo<PizzaType>;
@@ -31,7 +31,7 @@ const CartPizza: React.FC<CartPizzaProps> = ({ id }) => {
     const productFound = findCartProduct();
 
     if (productFound) {
-      openModal(productFound.product);
+      openModal(productFound.item);
     }
   };
 
@@ -42,7 +42,7 @@ const CartPizza: React.FC<CartPizzaProps> = ({ id }) => {
   }
 
   const {
-    product: { availableBases, availableSizes },
+    item: { product, availableBases, availableSizes },
   } = cartProduct;
 
   const selectedSize = availableSizes.find(size => size.selected);
@@ -52,7 +52,8 @@ const CartPizza: React.FC<CartPizzaProps> = ({ id }) => {
   return (
     <CartProduct
       id={id}
-      name={`${selectedSize?.sizeType.size} cm ${selectedSize?.sizeType.name} ${selectedBase?.base.name} ${cartProduct.product.name}`}
+      name={`${selectedSize?.sizeType?.size} cm ${selectedSize?.sizeType?.name} ${selectedBase?.base?.name} ${product.name}`}
+      imageUrl={product.imageUrl}
       onClickEdit={handleOpenModal}
     />
   );

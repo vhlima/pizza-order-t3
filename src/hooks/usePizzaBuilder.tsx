@@ -14,6 +14,9 @@ export type PizzaType = Prisma.PizzaGetPayload<{
   include: {
     product: {
       select: {
+        id: true;
+        name: true;
+        imageUrl: true;
         category: {
           select: {
             code: true;
@@ -22,6 +25,11 @@ export type PizzaType = Prisma.PizzaGetPayload<{
       };
     };
     availableBases: {
+      orderBy: {
+        base: {
+          name: 'desc';
+        };
+      };
       select: {
         selected: true;
         base: {

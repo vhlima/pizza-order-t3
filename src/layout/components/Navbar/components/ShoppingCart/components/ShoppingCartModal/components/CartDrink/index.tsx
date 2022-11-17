@@ -18,7 +18,7 @@ const CartDrink: React.FC<CartDrinkProps> = ({ id }) => {
   const { products } = useShoppingCart();
 
   const findDrink = () => {
-    const productFound = products.find(p => p.product.productId === id);
+    const productFound = products.find(({ item }) => item.product.id === id);
 
     if (productFound) {
       return productFound as ShoppingCartProductInfo<DrinkType>;
@@ -31,7 +31,7 @@ const CartDrink: React.FC<CartDrinkProps> = ({ id }) => {
     const productFound = findDrink();
 
     if (productFound) {
-      openModal(productFound.product.productId);
+      openModal(productFound.item.product.id);
     }
   };
 
@@ -41,15 +41,20 @@ const CartDrink: React.FC<CartDrinkProps> = ({ id }) => {
     return null;
   }
 
-  const selectedSize = drink.product.availableSizes.find(size => size.selected);
+  const {
+    item: { product, availableSizes },
+  } = drink;
+
+  const selectedSize = availableSizes.find(size => size.selected);
 
   return (
     <CartProduct
       id={id}
+      imageUrl={product.imageUrl}
       name={
         !selectedSize
-          ? drink.product.name
-          : `${selectedSize?.drinkSize.name} ${drink.product.name}`
+          ? product.name
+          : `${selectedSize?.drinkSize.name} ${product.name}`
       }
       onClickEdit={handleOpenModal}
     />

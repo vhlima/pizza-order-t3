@@ -9,27 +9,23 @@ import Typography from '../../../../../../../../../components/Typography';
 interface CartProductProps {
   id: number;
   name: string;
+  imageUrl: string;
   onClickEdit: () => void;
 }
 
-const CartProduct: React.FC<CartProductProps> = ({ id, name, onClickEdit }) => {
+const CartProduct: React.FC<CartProductProps> = ({
+  id,
+  imageUrl,
+  name,
+  onClickEdit,
+}) => {
   const { products, changeProductAmount, removeProductFromCart } =
     useShoppingCart();
-
-  const cartProduct = products.find(p => p.product.productId === id);
-
-  if (!cartProduct) {
-    return null;
-  }
 
   return (
     <li className="p-4 border-b border-grey last-of-type:border-b-0">
       <article className="grid items-center grid-cols-[1fr_3fr_1fr] gap-2">
-        <Image
-          className="rounded-sm"
-          src={cartProduct.product.imageUrl}
-          alt={cartProduct.product.name}
-        />
+        <Image className="rounded-sm" src={imageUrl} alt={name} />
 
         <Typography className="font-bold" component="h2" color="primary">
           {name}
@@ -48,7 +44,9 @@ const CartProduct: React.FC<CartProductProps> = ({ id, name, onClickEdit }) => {
 
           <select
             className="p-1"
-            value={`${cartProduct.amount}`}
+            value={`${
+              products.find(({ item }) => item.product.id === id)?.amount || '1'
+            }`}
             onChange={e => changeProductAmount(id, Number(e.target.value))}
           >
             {Array.from({ length: 25 })

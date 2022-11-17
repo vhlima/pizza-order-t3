@@ -22,7 +22,7 @@ const PizzaSummaryCard: React.FC<PizzaSummaryCardProps> = ({ onSubmit }) => {
   const handleSubmit = () => {
     onSubmit();
 
-    addProductToCart({ product: pizza });
+    addProductToCart({ item: pizza });
   };
 
   return (

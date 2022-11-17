@@ -34,18 +34,24 @@ const DrinkModal: React.FC<DrinkModalProps> = ({ onClose }) => {
 
   const handleAddToCart = () => {
     addProductToCart({
-      product: drink,
+      item: drink,
       amount,
     });
 
     onClose();
   };
 
+  if (!drink) {
+    return null;
+  }
+
+  const { product, availableSizes } = drink;
+
   return (
     <Modal className="w-11/12 rounded-md" center backdrop onClose={onClose}>
       <header className="flex items-center p-4">
         <Typography className="font-bold uppercase" component="h1" size="lg">
-          {drink.name}
+          {product.name}
         </Typography>
 
         <button
@@ -59,24 +65,24 @@ const DrinkModal: React.FC<DrinkModalProps> = ({ onClose }) => {
 
       <Image
         className="px-4"
-        src={drink.imageUrl}
-        alt={drink.name}
+        src={product.imageUrl}
+        alt={product.name}
         unoptimized
       />
 
       <div className="flex flex-col gap-4 p-4">
         <StepCard title="Make your choice">
-          {drink.availableSizes.length > 1 && (
+          {availableSizes.length > 1 && (
             <DrinkSizes
               drinkName={selectedSize?.drinkSize?.name}
-              sizeNames={drink.availableSizes.map(size => size.drinkSize.name)}
+              sizeNames={availableSizes.map(size => size.drinkSize.name)}
               onClick={sizeName => selectDrinkSize(sizeName)}
             />
           )}
 
           <div className="flex items-center">
             <Typography className="font-bold" component="h3">
-              {drink.name}
+              {product.name}
             </Typography>
 
             <AmountSelector />
@@ -97,7 +103,7 @@ const DrinkModal: React.FC<DrinkModalProps> = ({ onClose }) => {
           )}
 
           <Typography className="font-bold" component="span">
-            {drink.name}
+            {product.name}
           </Typography>
         </StepCard>
 

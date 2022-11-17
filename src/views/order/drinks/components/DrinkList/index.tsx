@@ -17,17 +17,17 @@ const DrinkList: React.FC = () => {
 
   return (
     <ul className="grid grid-cols-2 gap-3">
-      {data.map(drink => (
-        <li key={`drink-list-${drink.name}`}>
+      {data.map(({ product }) => (
+        <li key={`drink-list-${product.name}`}>
           <button
             className="flex flex-col w-full"
             type="button"
-            onClick={() => openModal(drink.productId)}
+            onClick={() => openModal(product.id)}
           >
             <Image
               className="rounded-md"
-              src={drink.imageUrl}
-              alt={drink.name}
+              src={product.imageUrl}
+              alt={product.name}
             />
 
             <Typography
@@ -35,7 +35,7 @@ const DrinkList: React.FC = () => {
               component="h2"
               color="primary"
             >
-              {drink.name}
+              {product.name}
             </Typography>
           </button>
         </li>

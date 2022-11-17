@@ -13,8 +13,8 @@ import type { PizzaType } from './usePizzaBuilder';
 
 import type { DrinkType } from './useDrinkModal';
 
-export type ShoppingCartProductInfo<T extends { productId: number }> = {
-  product: T;
+export type ShoppingCartProductInfo<T extends { product: { id: number } }> = {
+  item: T;
   amount: number;
 };
 
@@ -45,6 +45,13 @@ const ShoppingCartContext = createContext({} as ShoppingCartContextHandles);
 export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
   children,
 }) => {
+  // const cartValidationSchema = z.object({
+  //   product: z.object({
+
+  //   }),
+  //   amount: z.number().min(1).max(25),
+  // });
+
   const [products, setProducts] = useState<ShoppingCartProducts>([]);
 
   const setLocalStorage = (stringified?: string) => {
@@ -69,16 +76,16 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
   }, [setProducts]);
 
   const addProductToCart: AddProductToCartHandles = useCallback(
-    ({ product, amount }) => {
+    ({ item, amount }) => {
       setProducts(prev => {
         const productFound = prev.find(
-          productInfo => productInfo.product.productId === product.productId,
+          productInfo => productInfo.item.product.id === item.product.id,
         );
 
         if (!productFound) {
           const updatedProducts = [
             ...prev,
-            { product, amount: amount || 1 } as ShoppingCartProductType,
+            { item, amount: amount || 1 } as ShoppingCartProductType,
           ];
 
           setLocalStorage(JSON.stringify(updatedProducts));
@@ -91,9 +98,8 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
         const updatedProducts = [...prev];
 
         updatedProducts[productIndex] = {
-          product: {
-            ...product,
-            productId: productFound.product.productId,
+          item: {
+            ...item,
           },
           amount: amount || productFound.amount,
         } as ShoppingCartProductType;
@@ -110,7 +116,7 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
     productId => {
       setProducts(prev => {
         const filteredProducts = prev.filter(
-          productInfo => productInfo.product.productId !== productId,
+          ({ item }) => item.product.id !== productId,
         );
 
         setLocalStorage(
@@ -129,7 +135,7 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
     (productId, amount) => {
       setProducts(prev => {
         const cartProductIndex = prev.findIndex(
-          p => p.product.productId === productId,
+          ({ item }) => item.product.id === productId,
         );
 
         if (cartProductIndex < 0) {
@@ -145,7 +151,7 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
         const updatedProducts = [...prev];
 
         updatedProducts[cartProductIndex] = {
-          product: cartProduct.product,
+          item: cartProduct.item,
           amount,
         } as ShoppingCartProductType;
 

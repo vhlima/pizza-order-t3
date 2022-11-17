@@ -13,11 +13,9 @@ export const pizzaRouter = router({
       include: {
         product: {
           select: {
-            category: {
-              select: {
-                code: true,
-              },
-            },
+            id: true,
+            name: true,
+            imageUrl: true,
           },
         },
         availableBases: {
@@ -71,6 +69,9 @@ export const pizzaRouter = router({
         include: {
           product: {
             select: {
+              id: true,
+              name: true,
+              imageUrl: true,
               category: {
                 select: {
                   code: true,
@@ -124,10 +125,14 @@ export const pizzaRouter = router({
   getAll: publicProcedure.query(({ ctx }) =>
     ctx.prisma.pizza.findMany({
       select: {
-        productId: true,
-        name: true,
+        product: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
         description: true,
-        imageUrl: true,
       },
     }),
   ),

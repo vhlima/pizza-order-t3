@@ -66,14 +66,14 @@ const ShoppingCartModal: React.FC<ShoppingCartModalProps> = ({ onClose }) => {
           <PizzaBuilder>
             <DrinkProvider>
               <ul className="flex flex-col">
-                {products.map(({ product: { product, productId } }) => (
-                  <Fragment key={`product-info-${productId}`}>
+                {products.map(({ item: { product } }) => (
+                  <Fragment key={`product-info-${product.id}`}>
                     {product.category.code === 'PIZZA' && (
-                      <CartPizza id={productId} />
+                      <CartPizza id={product.id} />
                     )}
 
                     {product.category.code === 'DRINK' && (
-                      <CartDrink id={productId} />
+                      <CartDrink id={product.id} />
                     )}
                   </Fragment>
                 ))}

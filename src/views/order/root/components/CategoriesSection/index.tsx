@@ -17,14 +17,14 @@ const CategoriesSection: React.FC = () => {
 
   return (
     <div className="grid grid-cols-2 gap-3 mt-3">
-      {data.map(({ name, imageUrl }) => (
+      {data.map(({ code, name, imageUrl }) => (
         <Card
           key={`category-card-${name}`}
           className="p-3 text-center select-none cursor-pointer hover:border-blue-200"
         >
           <Link
             href={{
-              pathname: '/order/pizza',
+              pathname: `/order/${code.toLowerCase()}`,
               query: { withBack: true },
             }}
           >

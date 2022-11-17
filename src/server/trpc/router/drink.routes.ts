@@ -9,11 +9,11 @@ export const drinkRouter = router({
       ctx.prisma.drink.findUnique({
         where: { productId: input.id },
         select: {
-          productId: true,
-          name: true,
-          imageUrl: true,
           product: {
-            include: {
+            select: {
+              id: true,
+              name: true,
+              imageUrl: true,
               category: {
                 select: {
                   code: true,
@@ -37,9 +37,13 @@ export const drinkRouter = router({
   getAll: publicProcedure.query(({ ctx }) =>
     ctx.prisma.drink.findMany({
       select: {
-        productId: true,
-        name: true,
-        imageUrl: true,
+        product: {
+          select: {
+            id: true,
+            name: true,
+            imageUrl: true,
+          },
+        },
       },
     }),
   ),
