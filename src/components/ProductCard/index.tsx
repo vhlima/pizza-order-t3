@@ -27,6 +27,7 @@ const ProductCard: React.FC<PropsWithChildren<ProductCardProps>> = ({
       <Typography
         className={clsx('font-bold mt-1', {
           'text-center': !description,
+          'text-left': description,
         })}
         component="span"
         color="primary"
@@ -35,7 +36,7 @@ const ProductCard: React.FC<PropsWithChildren<ProductCardProps>> = ({
       </Typography>
 
       {description && (
-        <Typography component="p" size="xs">
+        <Typography className="text-left" component="p" size="xs">
           {description}
         </Typography>
       )}
