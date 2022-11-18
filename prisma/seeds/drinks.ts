@@ -25,7 +25,7 @@ const createDrink = ({ name, imageUrl, simpleSizes }: DrinkBaseProps) =>
         : ['2L', '600ML', 'Can']
       ).map(size => ({
         selected: size === '2L',
-        drinkSize: {
+        sizeType: {
           create: {
             name: size,
           },

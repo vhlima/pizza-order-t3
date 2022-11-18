@@ -9,23 +9,13 @@ import {
 
 import type { PropsWithChildren } from 'react';
 
-import type { PizzaType } from './usePizzaBuilder';
-
-import type { DrinkType } from './useDrinkModal';
-
-export type ShoppingCartProductInfo<T extends { product: { id: number } }> = {
-  item: T;
-  amount: number;
-};
-
-type ShoppingCartProductType =
-  | ShoppingCartProductInfo<PizzaType>
-  | ShoppingCartProductInfo<DrinkType>;
-
-type ShoppingCartProducts = Array<ShoppingCartProductType>;
+import type {
+  ShoppingCartItem,
+  ShoppingCartProducts,
+} from '../types/shopping-cart';
 
 type AddProductToCartHandles = (
-  product: Omit<ShoppingCartProductType, 'amount'> & { amount?: number },
+  product: Omit<ShoppingCartItem, 'amount'> & { amount?: number },
 ) => void;
 
 type ChangeProductAmountHandles = (productId: number, amount: number) => void;
@@ -85,7 +75,7 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
         if (!productFound) {
           const updatedProducts = [
             ...prev,
-            { item, amount: amount || 1 } as ShoppingCartProductType,
+            { item, amount: amount || 1 } as ShoppingCartItem,
           ];
 
           setLocalStorage(JSON.stringify(updatedProducts));
@@ -102,7 +92,7 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
             ...item,
           },
           amount: amount || productFound.amount,
-        } as ShoppingCartProductType;
+        } as ShoppingCartItem;
 
         setLocalStorage(JSON.stringify(updatedProducts));
 
@@ -153,7 +143,7 @@ export const ShoppingCartProvider: React.FC<PropsWithChildren> = ({
         updatedProducts[cartProductIndex] = {
           item: cartProduct.item,
           amount,
-        } as ShoppingCartProductType;
+        } as ShoppingCartItem;
 
         setLocalStorage(JSON.stringify(updatedProducts));
 

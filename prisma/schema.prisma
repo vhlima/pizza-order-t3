@@ -41,7 +41,7 @@ model DrinkSize {
   drink Drink @relation(fields: [drinkId], references: [productId])
 
   drinkSizeId Int @map("drink_size_id")
-  drinkSize DrinkSizeType @relation(fields: [drinkSizeId], references: [id])
+  sizeType DrinkSizeType @relation(fields: [drinkSizeId], references: [id])
 }
 
 model DrinkSizeType {
@@ -69,6 +69,7 @@ model Product {
 
   pizzas Pizza[]
   drinks Drink[]
+  sideDishes SideDish[]
 }
 
 model Pizza {
@@ -171,6 +172,18 @@ model PizzaBase {
 
   baseCode String @map("base_code")
   base PizzaBaseType @relation(fields: [baseCode], references: [code])
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model SideDish {
+  @@map("side_dishes")
+
+  productId Int @map("product_id") @id
+  product Product @relation(fields: [productId], references: [id])
+
+  description String @db.VarChar(255)
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

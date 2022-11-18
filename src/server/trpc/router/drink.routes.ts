@@ -24,7 +24,7 @@ export const drinkRouter = router({
           availableSizes: {
             select: {
               selected: true,
-              drinkSize: {
+              sizeType: {
                 select: {
                   name: true,
                 },

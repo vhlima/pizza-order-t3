@@ -9,6 +9,7 @@ import { pizzaToppings } from './seeds/pizza-toppings';
 
 import { pizzas } from './seeds/pizzas';
 import { productCategories } from './seeds/product-categories';
+import { sideDishes } from './seeds/side-dishes';
 
 const prisma = new PrismaClient();
 
@@ -74,6 +75,16 @@ async function main() {
   await Promise.all(pizzaPromise);
 
   console.log(`[Seed] pizzas seeded with success`);
+
+  const sideDishesPromise = sideDishes.map(sideDish =>
+    prisma.sideDish.create({
+      data: sideDish,
+    }),
+  );
+
+  await Promise.all(sideDishesPromise);
+
+  console.log(`[Seed] side_dishes seeded with success`);
 
   console.log(`[Seed] Seeding finished`);
 }
