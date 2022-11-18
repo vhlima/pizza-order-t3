@@ -16,9 +16,9 @@ import PizzaBuilder from '../../../../../../../components/PizzaBuilder';
 
 import CartPizza from './components/CartPizza';
 
-import CartDrink from './components/CartDrink';
+import CartItem from './components/CartItem';
 
-import DrinkProvider from '../../../../../../../components/DrinkProvider';
+import ProductModalProvider from '../../../../../../../components/ProductModalProvider';
 
 type ShoppingCartModalProps = ModalHandles;
 
@@ -64,7 +64,7 @@ const ShoppingCartModal: React.FC<ShoppingCartModalProps> = ({ onClose }) => {
       ) : (
         <>
           <PizzaBuilder>
-            <DrinkProvider>
+            <ProductModalProvider>
               <ul className="flex flex-col">
                 {products.map(({ item: { product } }) => (
                   <Fragment key={`product-info-${product.id}`}>
@@ -72,13 +72,13 @@ const ShoppingCartModal: React.FC<ShoppingCartModalProps> = ({ onClose }) => {
                       <CartPizza id={product.id} />
                     )}
 
-                    {product.category.code === 'DRINK' && (
-                      <CartDrink id={product.id} />
+                    {product.category.code !== 'PIZZA' && (
+                      <CartItem id={product.id} />
                     )}
                   </Fragment>
                 ))}
               </ul>
-            </DrinkProvider>
+            </ProductModalProvider>
           </PizzaBuilder>
 
           <div className="w-full mt-auto p-2 bg-white-200 border-t-2 border-blue-100">

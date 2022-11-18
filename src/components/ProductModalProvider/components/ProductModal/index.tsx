@@ -2,7 +2,7 @@ import { BsCheckCircleFill } from 'react-icons/bs';
 
 import type { ModalHandles } from '../../../Modal';
 
-import { useDrinkModal } from '../../../../hooks/useDrinkModal';
+import { useProductModal } from '../../../../hooks/useProductModal';
 
 import { useShoppingCart } from '../../../../hooks/useShoppingCart';
 
@@ -14,42 +14,38 @@ import StepCard from '../../../StepCard';
 
 import Typography from '../../../Typography';
 
-import DrinkSizes from './components/DrinkSizes';
-
 import Button from '../../../Button';
 
 import AmountSelector from './components/AmountSelector';
 
-type DrinkModalProps = ModalHandles;
+import SizeSelector from './components/SizeSelector';
 
-const DrinkModal: React.FC<DrinkModalProps> = ({ onClose }) => {
-  const {
-    drinkInfo: { drink, amount },
-    selectDrinkSize,
-  } = useDrinkModal();
+type ProductModalProps = ModalHandles;
+
+const ProductModal: React.FC<ProductModalProps> = ({ onClose }) => {
+  const { productInfo } = useProductModal();
 
   const { addProductToCart } = useShoppingCart();
 
-  const selectedSize = drink.availableSizes.find(size => size.selected);
-
   const handleAddToCart = () => {
     addProductToCart({
-      item: drink,
-      amount,
+      item: productInfo.item,
+      amount: productInfo.amount,
     });
 
     onClose();
   };
 
-  if (!drink) {
-    return null;
-  }
+  const {
+    item: { product },
+  } = productInfo;
 
-  const { product, availableSizes } = drink;
+  const availableSizes =
+    'availableSizes' in productInfo.item ? productInfo.item.availableSizes : [];
 
   return (
     <Modal className="w-11/12 rounded-md" center backdrop onClose={onClose}>
-      <header className="flex items-center p-4">
+      <header className="flex items-center gap-2 p-4">
         <Typography className="font-bold uppercase" component="h1" size="lg">
           {product.name}
         </Typography>
@@ -72,13 +68,7 @@ const DrinkModal: React.FC<DrinkModalProps> = ({ onClose }) => {
 
       <div className="flex flex-col gap-4 p-4">
         <StepCard title="Make your choice">
-          {availableSizes.length > 1 && (
-            <DrinkSizes
-              drinkName={selectedSize?.drinkSize?.name}
-              sizeNames={availableSizes.map(size => size.drinkSize.name)}
-              onClick={sizeName => selectDrinkSize(sizeName)}
-            />
-          )}
+          {availableSizes.length > 1 && <SizeSelector />}
 
           <div className="flex items-center">
             <Typography className="font-bold" component="h3">
@@ -93,12 +83,12 @@ const DrinkModal: React.FC<DrinkModalProps> = ({ onClose }) => {
           <BsCheckCircleFill className="text-green-600 mr-2" size={20} />
 
           <Typography className="font-bold mr-2" component="span">
-            ({amount})
+            ({productInfo.amount})
           </Typography>
 
-          {selectedSize && (
+          {availableSizes.length > 0 && (
             <Typography className="font-bold mr-1" component="span">
-              {selectedSize.drinkSize.name}
+              {availableSizes.find(size => size.selected)?.sizeType?.name}
             </Typography>
           )}
 
@@ -125,4 +115,4 @@ const DrinkModal: React.FC<DrinkModalProps> = ({ onClose }) => {
   );
 };
 
-export default DrinkModal;
+export default ProductModal;

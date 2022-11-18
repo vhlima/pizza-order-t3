@@ -1,8 +1,8 @@
 import type { PizzaType } from '../../../../../../../../../hooks/usePizzaBuilder';
 
-import { usePizzaBuilder } from '../../../../../../../../../hooks/usePizzaBuilder';
+import type { ShoppingCartItemInfo } from '../../../../../../../../../types/shopping-cart';
 
-import type { ShoppingCartProductInfo } from '../../../../../../../../../hooks/useShoppingCart';
+import { usePizzaBuilder } from '../../../../../../../../../hooks/usePizzaBuilder';
 
 import { useShoppingCart } from '../../../../../../../../../hooks/useShoppingCart';
 
@@ -21,7 +21,7 @@ const CartPizza: React.FC<CartPizzaProps> = ({ id }) => {
     const cartProduct = products.find(({ item }) => item.product.id === id);
 
     if (cartProduct) {
-      return cartProduct as ShoppingCartProductInfo<PizzaType>;
+      return cartProduct as ShoppingCartItemInfo<PizzaType>;
     }
 
     return null;

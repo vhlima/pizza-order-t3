@@ -1,16 +1,24 @@
-import { useDrinkModal } from '../../../../../../hooks/useDrinkModal';
+import { useProductModal } from '../../../../../../hooks/useProductModal';
 
 import Typography from '../../../../../Typography';
 
 const AmountSelector: React.FC = () => {
-  const { drinkInfo, addOneToAmount, subtractOneFromAmount } = useDrinkModal();
+  const { productInfo, setProductInfo } = useProductModal();
+
+  const addOneToAmount = () => {
+    setProductInfo(prev => ({ ...prev, amount: prev.amount + 1 }));
+  };
+
+  const subtractOneFromAmount = () => {
+    setProductInfo(prev => ({ ...prev, amount: prev.amount - 1 }));
+  };
 
   return (
     <div className="flex items-center ml-auto">
       <button
         className="w-10 h-10 rounded-full bg-blue-200 disabled:bg-gray-300 group"
         type="button"
-        disabled={drinkInfo.amount <= 1}
+        disabled={productInfo.amount <= 1}
         onClick={subtractOneFromAmount}
       >
         <Typography
@@ -24,13 +32,13 @@ const AmountSelector: React.FC = () => {
       </button>
 
       <Typography className="mx-3" component="span">
-        {drinkInfo.amount}
+        {productInfo.amount}
       </Typography>
 
       <button
         className="w-10 h-10 rounded-full bg-blue-200 disabled:bg-gray-300 group"
         type="button"
-        disabled={drinkInfo.amount >= 25}
+        disabled={productInfo.amount >= 25}
         onClick={addOneToAmount}
       >
         <Typography
