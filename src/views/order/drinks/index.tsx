@@ -1,10 +1,10 @@
 import Typography from '../../../components/Typography';
 
-import DrinkProvider from '../../../components/DrinkProvider';
-
 import DrinkList from './components/DrinkList';
 
 import GoBackButton from '../../../components/GoBackButton';
+
+import ProductModalProvider from '../../../components/ProductModalProvider';
 
 const DrinksPageView: React.FC = () => (
   <div className="flex flex-col">
@@ -19,9 +19,9 @@ const DrinksPageView: React.FC = () => (
       Drinks
     </Typography>
 
-    <DrinkProvider>
+    <ProductModalProvider>
       <DrinkList />
-    </DrinkProvider>
+    </ProductModalProvider>
   </div>
 );
 

@@ -1,11 +1,19 @@
 import { trpc } from '../../../../../utils/trpc';
 
-import { useDrinkModal } from '../../../../../hooks/useDrinkModal';
+import { useProductModal } from '../../../../../hooks/useProductModal';
 
 import ProductCard from '../../../../../components/ProductCard';
 
 const DrinkList: React.FC = () => {
-  const { openModal } = useDrinkModal();
+  const { productInfo, productId, setProductId, openModal } = useProductModal();
+
+  trpc.drink.getById.useQuery(
+    { id: productId },
+    {
+      enabled: productId !== -1 && Object.keys(productInfo).length === 0,
+      onSuccess: data => data && openModal({ item: data }),
+    },
+  );
 
   const { data } = trpc.drink.getAll.useQuery();
 
@@ -20,7 +28,7 @@ const DrinkList: React.FC = () => {
           key={`drink-list-${product.name}`}
           name={product.name}
           imageUrl={product.imageUrl}
-          onClick={() => openModal(product.id)}
+          onClick={() => setProductId(product.id)}
         />
       ))}
     </ul>
