@@ -46,15 +46,15 @@ const ProductCard: React.FC<PropsWithChildren<ProductCardProps>> = ({
   );
 
   return (
-    <li
-      className={clsx({
-        'flex flex-col': !onClick,
-      })}
-    >
+    <li className={!onClick ? 'flex flex-col' : undefined}>
       {!onClick ? (
         body
       ) : (
-        <button className="flex flex-col" type="button" onClick={onClick}>
+        <button
+          className="flex flex-col w-full"
+          type="button"
+          onClick={onClick}
+        >
           {body}
         </button>
       )}
