@@ -10,6 +10,7 @@ interface ProductCardProps {
   name: string;
   imageUrl: string;
   description?: string;
+  small?: boolean;
   onClick?: () => void;
 }
 
@@ -17,6 +18,7 @@ const ProductCard: React.FC<PropsWithChildren<ProductCardProps>> = ({
   name,
   imageUrl,
   description,
+  small,
   children,
   onClick,
 }) => {
@@ -31,6 +33,7 @@ const ProductCard: React.FC<PropsWithChildren<ProductCardProps>> = ({
         })}
         component="span"
         color="primary"
+        size={!small ? 'md' : 'sm'}
       >
         {name}
       </Typography>
