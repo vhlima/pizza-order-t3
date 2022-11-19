@@ -8,6 +8,8 @@ import Typography from '../../../components/Typography';
 
 import ProductSuggestion from './components/ProductSuggestion';
 
+import ShoppingCartItems from '../../../components/ShoppingCartItems';
+
 const OrderCheckoutView: React.FC = () => {
   const { products } = useShoppingCart();
 
@@ -33,8 +35,12 @@ const OrderCheckoutView: React.FC = () => {
           </Button>
         </div>
 
-        <StepCard styleType="secondary" title="Step 1: Confirm your order">
-          <h1>order here</h1>
+        <StepCard
+          styleType="secondary"
+          title="Step 1: Confirm your order"
+          padding={false}
+        >
+          <ShoppingCartItems />
         </StepCard>
 
         <StepCard
