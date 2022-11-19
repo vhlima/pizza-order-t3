@@ -6,7 +6,7 @@ import StepCard from '../../../components/StepCard';
 
 import Typography from '../../../components/Typography';
 
-import ProductSuggestion from './components/ProductSuggestion';
+import ProductCard from '../../../components/ProductCard';
 
 import ShoppingCartItems from '../../../components/ShoppingCartItems';
 
@@ -49,10 +49,11 @@ const OrderCheckoutView: React.FC = () => {
           title="Step 2: Choose your side dishes"
         >
           {[1, 2, 3].map(n => (
-            <ProductSuggestion
-              key={`side-dished-${n}`}
+            <ProductCard
+              key={`side-dish-${n}`}
               name="Cheesebread Calabresa"
               imageUrl="https://cache.dominos.com/olo/6_98_8/assets/build/market/BR/_pt/images/img/products/thumbnails/F_CBCALA.jpg"
+              small
             />
           ))}
         </StepCard>
@@ -63,10 +64,11 @@ const OrderCheckoutView: React.FC = () => {
           title="Step 3: Choose your desserts"
         >
           {[1, 2, 3].map(n => (
-            <ProductSuggestion
+            <ProductCard
               key={`desserts-${n}`}
               name="Churrosbread"
               imageUrl="https://cache.dominos.com/olo/6_98_8/assets/build/market/BR/_pt/images/img/products/thumbnails/F_CHUROBRD.jpg"
+              small
             />
           ))}
         </StepCard>
@@ -77,10 +79,11 @@ const OrderCheckoutView: React.FC = () => {
           title="Step 4: Choose your drinks"
         >
           {[1, 2, 3].map(n => (
-            <ProductSuggestion
+            <ProductCard
               key={`drinks-${n}`}
               name="Coca-Cola"
               imageUrl="https://cache.dominos.com/olo/6_98_8/assets/build/market/BR/_pt/images/img/products/thumbnails/F_COKE.jpg"
+              small
             />
           ))}
         </StepCard>
