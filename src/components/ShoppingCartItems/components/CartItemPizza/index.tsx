@@ -1,18 +1,18 @@
-import type { PizzaType } from '../../../../../../../../../hooks/usePizzaBuilder';
+import type { PizzaType } from '../../../../hooks/usePizzaBuilder';
 
-import type { ShoppingCartItemInfo } from '../../../../../../../../../types/shopping-cart';
+import type { ShoppingCartItemInfo } from '../../../../types/shopping-cart';
 
-import { usePizzaBuilder } from '../../../../../../../../../hooks/usePizzaBuilder';
+import { usePizzaBuilder } from '../../../../hooks/usePizzaBuilder';
 
-import { useShoppingCart } from '../../../../../../../../../hooks/useShoppingCart';
+import { useShoppingCart } from '../../../../hooks/useShoppingCart';
 
-import CartProduct from '../CartProduct';
+import CartItem from '../CartItem';
 
-interface CartPizzaProps {
+interface CartItemPizzaProps {
   id: number;
 }
 
-const CartPizza: React.FC<CartPizzaProps> = ({ id }) => {
+const CartItemPizza: React.FC<CartItemPizzaProps> = ({ id }) => {
   const { openModal } = usePizzaBuilder();
 
   const { products } = useShoppingCart();
@@ -50,7 +50,7 @@ const CartPizza: React.FC<CartPizzaProps> = ({ id }) => {
   const selectedBase = availableBases.find(base => base.selected);
 
   return (
-    <CartProduct
+    <CartItem
       id={id}
       name={`${selectedSize?.sizeType?.size} cm ${selectedSize?.sizeType?.name} ${selectedBase?.base?.name} ${product.name}`}
       imageUrl={product.imageUrl}
@@ -59,4 +59,4 @@ const CartPizza: React.FC<CartPizzaProps> = ({ id }) => {
   );
 };
 
-export default CartPizza;
+export default CartItemPizza;

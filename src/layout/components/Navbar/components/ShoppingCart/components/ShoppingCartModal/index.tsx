@@ -1,5 +1,3 @@
-import { Fragment } from 'react';
-
 import { AiOutlineClose } from 'react-icons/ai';
 
 import type { ModalHandles } from '../../../../../../../components/Modal';
@@ -12,13 +10,7 @@ import Typography from '../../../../../../../components/Typography';
 
 import Button from '../../../../../../../components/Button';
 
-import PizzaBuilder from '../../../../../../../components/PizzaBuilder';
-
-import CartPizza from './components/CartPizza';
-
-import CartItem from './components/CartItem';
-
-import ProductModalProvider from '../../../../../../../components/ProductModalProvider';
+import ShoppingCartItems from '../../../../../../../components/ShoppingCartItems';
 
 type ShoppingCartModalProps = ModalHandles;
 
@@ -63,23 +55,7 @@ const ShoppingCartModal: React.FC<ShoppingCartModalProps> = ({ onClose }) => {
         </div>
       ) : (
         <>
-          <PizzaBuilder>
-            <ProductModalProvider>
-              <ul className="flex flex-col">
-                {products.map(({ item: { product } }) => (
-                  <Fragment key={`product-info-${product.id}`}>
-                    {product.category.code === 'PIZZA' && (
-                      <CartPizza id={product.id} />
-                    )}
-
-                    {product.category.code !== 'PIZZA' && (
-                      <CartItem id={product.id} />
-                    )}
-                  </Fragment>
-                ))}
-              </ul>
-            </ProductModalProvider>
-          </PizzaBuilder>
+          <ShoppingCartItems />
 
           <div className="w-full mt-auto p-2 bg-white-200 border-t-2 border-blue-100">
             <Typography className="font-bold" component="h2" color="tertiary">

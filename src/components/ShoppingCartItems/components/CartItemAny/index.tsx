@@ -1,16 +1,16 @@
-import type { ShoppingCartItem } from '../../../../../../../../../types/shopping-cart';
+import type { ShoppingCartItem } from '../../../../types/shopping-cart';
 
-import { useProductModal } from '../../../../../../../../../hooks/useProductModal';
+import { useProductModal } from '../../../../hooks/useProductModal';
 
-import { useShoppingCart } from '../../../../../../../../../hooks/useShoppingCart';
+import { useShoppingCart } from '../../../../hooks/useShoppingCart';
 
-import CartProduct from '../CartProduct';
+import CartItem from '../CartItem';
 
-interface CartItemProps {
+interface CartItemAnyProps {
   id: number;
 }
 
-const CartItem: React.FC<CartItemProps> = ({ id }) => {
+const CartItemAny: React.FC<CartItemAnyProps> = ({ id }) => {
   const { openModal } = useProductModal();
 
   const { products } = useShoppingCart();
@@ -42,7 +42,7 @@ const CartItem: React.FC<CartItemProps> = ({ id }) => {
       : undefined;
 
   return (
-    <CartProduct
+    <CartItem
       id={id}
       imageUrl={item.product.imageUrl}
       name={
@@ -57,4 +57,4 @@ const CartItem: React.FC<CartItemProps> = ({ id }) => {
   );
 };
 
-export default CartItem;
+export default CartItemAny;

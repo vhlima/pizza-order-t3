@@ -1,19 +1,19 @@
-import { useShoppingCart } from '../../../../../../../../../hooks/useShoppingCart';
+import { useShoppingCart } from '../../../../hooks/useShoppingCart';
 
-import Image from '../../../../../../../../../components/Image';
+import Image from '../../../Image';
 
-import Button from '../../../../../../../../../components/Button';
+import Button from '../../../Button';
 
-import Typography from '../../../../../../../../../components/Typography';
+import Typography from '../../../Typography';
 
-interface CartProductProps {
+interface CartItemProps {
   id: number;
   name: string;
   imageUrl: string;
   onClickEdit: () => void;
 }
 
-const CartProduct: React.FC<CartProductProps> = ({
+const CartItem: React.FC<CartItemProps> = ({
   id,
   imageUrl,
   name,
@@ -23,7 +23,7 @@ const CartProduct: React.FC<CartProductProps> = ({
     useShoppingCart();
 
   return (
-    <li className="p-4 border-b border-grey last-of-type:border-b-0">
+    <li className="p-4 border-b border-grey last-of-type:border-b-0 list-none">
       <article className="grid items-center grid-cols-[1fr_3fr_1fr] gap-2">
         <Image className="rounded-sm" src={imageUrl} alt={name} />
 
@@ -76,4 +76,4 @@ const CartProduct: React.FC<CartProductProps> = ({
   );
 };
 
-export default CartProduct;
+export default CartItem;
