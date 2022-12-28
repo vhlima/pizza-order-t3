@@ -16,6 +16,7 @@ export type PizzaType = Prisma.PizzaGetPayload<{
       select: {
         id: true;
         name: true;
+        price: true;
         imageUrl: true;
         category: {
           select: {
@@ -36,6 +37,7 @@ export type PizzaType = Prisma.PizzaGetPayload<{
           select: {
             code: true;
             name: true;
+            price: true;
           };
         };
       };
@@ -48,6 +50,7 @@ export type PizzaType = Prisma.PizzaGetPayload<{
           select: {
             code: true;
             name: true;
+            price: true;
           };
         };
       };
@@ -60,6 +63,7 @@ export type PizzaType = Prisma.PizzaGetPayload<{
             code: true;
             name: true;
             size: true;
+            price: true;
           };
         };
       };

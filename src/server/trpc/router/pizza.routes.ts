@@ -16,6 +16,11 @@ export const pizzaRouter = router({
             id: true,
             name: true,
             imageUrl: true,
+            category: {
+              select: {
+                code: true,
+              },
+            },
           },
         },
         availableBases: {
