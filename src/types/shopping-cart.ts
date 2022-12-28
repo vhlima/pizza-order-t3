@@ -7,12 +7,15 @@ export type ShoppingCartItemInfo<T extends { product: { id: number } }> = {
   amount: number;
 };
 
+// tipagem de product separado
+
 export type DrinkType = Prisma.DrinkGetPayload<{
   select: {
     product: {
       select: {
         id: true;
         name: true;
+        price: true;
         imageUrl: true;
         category: {
           select: {
@@ -27,6 +30,7 @@ export type DrinkType = Prisma.DrinkGetPayload<{
         sizeType: {
           select: {
             name: true;
+            price: true;
           };
         };
       };
@@ -41,6 +45,7 @@ export type SideDishType = Prisma.SideDishGetPayload<{
       select: {
         id: true;
         name: true;
+        price: true;
         imageUrl: true;
         category: {
           select: {
