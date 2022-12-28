@@ -4,15 +4,17 @@ import { pizzaToppings } from './pizza-toppings';
 
 interface PizzaBaseProps {
   name: string;
+  price: number;
   description: string;
   imageUrl: string;
 }
 
-const createPizza = ({ name, description, imageUrl }: PizzaBaseProps) =>
+const createPizza = ({ name, price, description, imageUrl }: PizzaBaseProps) =>
   ({
     product: {
       create: {
         name,
+        price,
         imageUrl,
         category: {
           connect: { code: 'PIZZA' },
@@ -52,36 +54,42 @@ const createPizza = ({ name, description, imageUrl }: PizzaBaseProps) =>
 export const pizzas: Prisma.PizzaCreateInput[] = [
   createPizza({
     name: '3 Queijos',
+    price: 30,
     imageUrl:
       'https://cache.dominos.com/olo/6_97_4/assets/build/market/BR/_pt/images/img/products/larges/S_PIZQU.jpg',
     description: 'Queijo, requeijão, oregano e parmesão ralado.',
   }),
   createPizza({
     name: 'Calabresa',
+    price: 30,
     imageUrl:
       'https://cache.dominos.com/olo/6_97_4/assets/build/market/BR/_pt/images/img/products/larges/S_PIZQU.jpg',
     description: 'Queijo, calabresa e cebola, oregano.',
   }),
   createPizza({
     name: 'Corn & Bacon',
+    price: 30,
     imageUrl:
       'https://cache.dominos.com/olo/6_97_4/assets/build/market/BR/_pt/images/img/products/larges/S_PIZQU.jpg',
     description: 'Queijo, bacon, oregano e milho.',
   }),
   createPizza({
     name: 'Cheese Pizza',
+    price: 30,
     imageUrl:
       'https://cache.dominos.com/olo/6_97_4/assets/build/market/BR/_pt/images/img/products/larges/S_PIZQU.jpg',
     description: 'Queijo e orégano.',
   }),
   createPizza({
     name: 'Margherita',
+    price: 30,
     imageUrl:
       'https://cache.dominos.com/olo/6_97_4/assets/build/market/BR/_pt/images/img/products/larges/S_PIZQU.jpg',
     description: 'Queijo, tomate, oregano e manjericão.',
   }),
   createPizza({
     name: 'Pepperoni',
+    price: 30,
     imageUrl:
       'https://cache.dominos.com/olo/6_97_4/assets/build/market/BR/_pt/images/img/products/larges/S_PIZQU.jpg',
     description: 'Queijo, oregano e pepperoni.',
