@@ -6,6 +6,8 @@ import StepCard from '../../../components/StepCard';
 
 import Typography from '../../../components/Typography';
 
+import Link from '../../../components/Link';
+
 import ProductCard from '../../../components/ProductCard';
 
 import ShoppingCartItems from '../../../components/ShoppingCartItems';
@@ -30,9 +32,11 @@ const OrderCheckoutView: React.FC = () => {
             View your order here
           </Typography>
 
-          <Button className="uppercase ml-auto" styleType="secondary">
-            Add more items
-          </Button>
+          <Link className="ml-auto border-2 border-blue-200 p-2" href="/order">
+            <Typography className="uppercase" component="span" color="primary">
+              Add more items
+            </Typography>
+          </Link>
         </div>
 
         <StepCard
